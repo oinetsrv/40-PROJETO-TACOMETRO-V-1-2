@@ -1,0 +1,3 @@
+https://www.arduino.cc/reference/pt/language/functions/external-interrupts/attachinterrupt/
+
+http://gammon.com.au/interrupts
