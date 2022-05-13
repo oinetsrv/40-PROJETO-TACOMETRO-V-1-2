@@ -68,7 +68,10 @@ const byte pin_09 = (1 << 1);
 // --- Variáveis Globais            --- //
 
 
-unsigned long timeold           = 0;        //volatile byte pulsos;
+unsigned long 
+              timeold           = 0,        // Variavel conta tempo em milis contador
+              timeold_end       = 0;        // Variavel conta tempo em milis disparo 
+
 unsigned int  pulsos_por_volta  = 200;
 
 int 
@@ -85,7 +88,8 @@ int
               pulsos_6          = 0,
               pulsos_7          = 0,
               pulsos_8          = 0,
-              pulsos_9          = 0;
+              pulsos_9          = 0,
+              marcador_cliente  = 0;
 
 String
               str         = "",                                   // string de buffer de caracteres rede 485
@@ -93,7 +97,8 @@ String
               str_BASE    = "",
               end_CONF    = "";
 
-volatile byte state_D2          = LOW, 
+volatile byte 
+              state_D2          = LOW, 
               state_D3          = LOW,
               state_D4          = LOW,
               state_D5          = LOW,
@@ -190,11 +195,33 @@ void loop() {
    /////// ---  Debug identificador de cliente --- ///////
    teste = Qual_cliente  (     );
    Contador              (     );// SEMPRE ATIVO
-   if (end_cliente_num == teste )
+  // logica se cliente for 1 ele imprime a msg
+  if (end_cliente_num == teste )
       {
         //Debug_qual_cliente   (     );
           Imprimir_serial_temp (     );
       }//end if
+  // 
+  if (end_cliente_num == 1)
+      {
+        // cliente 1 dispara os endereços para outros clientes
+        Chama_cliente(marcador_cliente);
+          if (marcador_cliente == 4)
+              {
+                marcador_cliente = 0;
+              }// end if
+      }// end if
+      
+  if (millis() - timeold_end >= 3000)
+      {
+        // temporizador sem usar o delay
+        int long timeold_2 = (millis() - timeold_end);
+        marcador_cliente ++;
+        Serial.println("");
+        Serial.println(marcador_cliente);
+
+        timeold_end = millis();
+      }// end If
 ///////////////////////////////////////////////////////////////////
 
 } // END LOOP
