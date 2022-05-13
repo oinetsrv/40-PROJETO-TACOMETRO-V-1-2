@@ -199,19 +199,19 @@ void loop() {
    /////// ---  Debug gerador de cliente --- ///////
    // Debug_gerador_endereco ();
    /////// ---  Debug identificador de cliente --- ///////
-   /*
+   
    teste = Qual_cliente   (     ); // aponta qual cliente está permitido falar na rede
    Contador               (     );// SEMPRE ATIVO
    if (end_cliente_num == teste )
       {
           //Debug_qual_cliente   (     );
-            Imprimir_serial_temp (     );
+            Imprimir_serial_temp (     ); // envia via RS485
       }//end if
 
  ///////////////////////////////////////////////////////////////////
    // Rotina para o cliente 1 o gerenciador de rede
       // temporização sem usar milis
-  if (millis() - timeold_end >= 3000)
+  if (millis() - timeold_end >= 1000)
       {
         // temporizador sem usar o delay
         int long timeold_2 = (millis() - timeold_end);
@@ -219,23 +219,21 @@ void loop() {
             {
               // cliente 1 dispara os endereços para outros clientes
               Chama_cliente(marcador_cliente);
-              Serial.print("cliente na rede: ");
-              Serial.println(marcador_cliente);
-              Serial.print("cliente lido: ");
-              Serial.println(teste);
+              // debug
+              //Serial.print("cliente na rede: ");
+              //Serial.println(marcador_cliente);
+              //Serial.print("cliente lido: ");
+              //Serial.println(teste);
               marcador_cliente ++;
-              if (marcador_cliente >= 5)
-              {
-               marcador_cliente = 1;
-              }
+              if (marcador_cliente >= 5) marcador_cliente = 1;
             }// end if
         timeold_end = millis();
       }// end If
-      */
+      
 ///////////////////////////////////////////////////////////////////
   // Rotina simulador de rede
-    freq_sensor=20000;
-    Simu_Sensor  (freq_sensor );
+  //  freq_sensor=20000;
+  //  Simu_Sensor  (freq_sensor );
 ///////////////////////////////////////////////////////////////////
 
 } // END LOOP
