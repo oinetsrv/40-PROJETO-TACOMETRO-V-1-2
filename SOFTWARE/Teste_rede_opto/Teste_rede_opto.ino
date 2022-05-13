@@ -89,7 +89,8 @@ int
               pulsos_7          = 0,
               pulsos_8          = 0,
               pulsos_9          = 0,
-              marcador_cliente  = 0;
+              marcador_cliente  = 0,
+              freq_sensor       = 0;
 
 String
               str         = "",                                   // string de buffer de caracteres rede 485
@@ -127,6 +128,8 @@ void Vetor_RPM              (float ref_temp,int n_pulso,int n_pulso_volta,int en
 void Proto_485_V2           (String end_cliente, String msg_cliente                     );
 // Debug serial com temperatura convertida
 void Imprimir_serial_temp   (                                                           );
+// Simula pulsos para teste sem usar o motor
+void Simu_Sensor            (int temp                                                   );
 
 // =================================================================================
 // --- Configurações Iniciais SETUP --- //
@@ -178,6 +181,9 @@ void setup() {
    digitalWrite(MASTER, LOW);
    Serial.begin(9600);
    Serial.println("Arquivo:Teste_rede_opto...\n");
+   Serial.print("Rotina ativa: ");
+   Serial.print("Simu_Sensor  (temp );\n");
+   
    Gerenciador_endereco();
    wdt_reset(); // reinicia contador de cachorrão!!!!
 } // end SETUP
@@ -193,35 +199,43 @@ void loop() {
    /////// ---  Debug gerador de cliente --- ///////
    // Debug_gerador_endereco ();
    /////// ---  Debug identificador de cliente --- ///////
-   teste = Qual_cliente  (     );
-   Contador              (     );// SEMPRE ATIVO
-  // logica se cliente for 1 ele imprime a msg
-  if (end_cliente_num == teste )
+   /*
+   teste = Qual_cliente   (     ); // aponta qual cliente está permitido falar na rede
+   Contador               (     );// SEMPRE ATIVO
+   if (end_cliente_num == teste )
       {
-        //Debug_qual_cliente   (     );
-          Imprimir_serial_temp (     );
+          //Debug_qual_cliente   (     );
+            Imprimir_serial_temp (     );
       }//end if
-  // 
-  if (end_cliente_num == 1)
-      {
-        // cliente 1 dispara os endereços para outros clientes
-        Chama_cliente(marcador_cliente);
-          if (marcador_cliente == 4)
-              {
-                marcador_cliente = 0;
-              }// end if
-      }// end if
-      
+
+ ///////////////////////////////////////////////////////////////////
+   // Rotina para o cliente 1 o gerenciador de rede
+      // temporização sem usar milis
   if (millis() - timeold_end >= 3000)
       {
         // temporizador sem usar o delay
         int long timeold_2 = (millis() - timeold_end);
-        marcador_cliente ++;
-        Serial.println("");
-        Serial.println(marcador_cliente);
-
+         if (end_cliente_num == 1)
+            {
+              // cliente 1 dispara os endereços para outros clientes
+              Chama_cliente(marcador_cliente);
+              Serial.print("cliente na rede: ");
+              Serial.println(marcador_cliente);
+              Serial.print("cliente lido: ");
+              Serial.println(teste);
+              marcador_cliente ++;
+              if (marcador_cliente >= 5)
+              {
+               marcador_cliente = 1;
+              }
+            }// end if
         timeold_end = millis();
       }// end If
+      */
+///////////////////////////////////////////////////////////////////
+  // Rotina simulador de rede
+    freq_sensor=20000;
+    Simu_Sensor  (freq_sensor );
 ///////////////////////////////////////////////////////////////////
 
 } // END LOOP
@@ -539,4 +553,11 @@ void Imprimir_serial_temp   (                                                   
          Contador();
       }// end if  
 }// end  imprimir_serial_temp
+// =================================================================================
+void Simu_Sensor            (int temp                                           ){
+         digitalWrite(MASTER, HIGH);
+         delayMicroseconds(temp);
+         digitalWrite(MASTER, LOW);
+         delayMicroseconds(temp);    
+}// end  simu_Sensor()
 // =================================================================================
