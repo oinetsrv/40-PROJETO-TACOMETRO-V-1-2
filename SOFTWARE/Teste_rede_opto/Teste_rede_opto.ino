@@ -6,7 +6,7 @@
 |   OBJETIVO :                                              |
 |             Apontar conversão de sensor tipo encoder      |
 |               escala 100p/volta para RPM via rede 485     |
-|              aplicação industrial geral.                  |
+|               aplicação industrial geral.                 |
 |   Atualização: Método de rede, sequenciar  respostas      |
 |                em cascata dos clientes baseado na         |
 |               quantidade de clientes e Mudança de I/O     |
@@ -66,7 +66,6 @@ const byte pin_08 = (1 << 0);
 const byte pin_09 = (1 << 1);
 // =================================================================================
 // --- Variáveis Globais            --- //
-
 
 unsigned long 
               timeold           = 0,        // Variavel conta tempo em milis contador
@@ -183,7 +182,7 @@ void setup() {
    Serial.println("Arquivo:Teste_rede_opto...\n");
    Serial.print("Rotina ativa: ");
    Serial.print("Simu_Sensor  (temp );\n");
-   
+
    Gerenciador_endereco();
    wdt_reset(); // reinicia contador de cachorrão!!!!
 } // end SETUP
@@ -195,11 +194,9 @@ void setup() {
 
 void loop() {
   wdt_reset               (     );
-///////////////////////////////////////////////////////////////////
    /////// ---  Debug gerador de cliente --- ///////
    // Debug_gerador_endereco ();
-   /////// ---  Debug identificador de cliente --- ///////
-   
+ 
    teste = Qual_cliente   (     ); // aponta qual cliente está permitido falar na rede
    Contador               (     );// SEMPRE ATIVO
    if (end_cliente_num == teste )
@@ -208,9 +205,8 @@ void loop() {
             Imprimir_serial_temp (     ); // envia via RS485
       }//end if
 
- ///////////////////////////////////////////////////////////////////
    // Rotina para o cliente 1 o gerenciador de rede
-      // temporização sem usar milis
+      // temporização sem usar delay
   if (millis() - timeold_end >= 1000)
       {
         // temporizador sem usar o delay
