@@ -233,10 +233,10 @@ void loop() {
             }// end if
         timeold_end = millis();
       }// end If
-      
+     
 ///////////////////////////////////////////////////////////////////
   // Rotina simulador de rede
-  //  freq_sensor=20000;
+  //  freq_sensor=20500;
   //  Simu_Sensor  (freq_sensor );
 ///////////////////////////////////////////////////////////////////
 
