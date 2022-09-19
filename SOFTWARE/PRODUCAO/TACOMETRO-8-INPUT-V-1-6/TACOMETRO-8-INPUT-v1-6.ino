@@ -56,12 +56,12 @@ const int MASTER = 13;
 #define Pbit_2 16 // A2 
 
 // ---  mapeamento de hardware      --- //
-const byte pin_02 = (1 << 2); //2;
+const byte pin_02 = (1 << 2);//(1 << 2); //2;
 const byte pin_03 = (1 << 3);
 const byte pin_04 = (1 << 4);
 const byte pin_05 = (1 << 5);
 const byte pin_06 = (1 << 6);
-const byte pin_07 = (1 << 7);
+const byte pin_07 = (1 << 7); 
 const byte pin_08 = (1 << 0);
 const byte pin_09 = (1 << 1);
 // =================================================================================
@@ -179,7 +179,7 @@ void setup() {
    digitalWrite(bit_end_2, LOW);
    digitalWrite(MASTER, LOW);
    Serial.begin(9600);
-   Serial.println("Arquivo:TACOMETRO-8-INPUT-v1-3...\n");
+   Serial.println("Arquivo:TACOMETRO-8-INPUT-v1-6...\n");
    //Serial.print("Rotina ativa: ");
    //Serial.print("Simu_Sensor  (temp );\n");
 
@@ -209,7 +209,7 @@ void loop() {
    Contador               (     );// SEMPRE ATIVO
    if (end_cliente_num == teste )
       {
-          //Debug_qual_cliente   (     );
+          Debug_qual_cliente   (     );
             Imprimir_serial_temp (     ); // envia via RS485
       }//end if
 
@@ -219,27 +219,33 @@ void loop() {
       {
         // temporizador sem usar o delay
         int long timeold_2 = (millis() - timeold_end);
-         if (end_cliente_num == 1)
+        if (end_cliente_num == 1)
             {
               // cliente 1 dispara os endereços para outros clientes
+             Imprimir_serial_temp (     );
+             delay(300);
+              marcador_cliente = 2;
+              Chama_cliente(marcador_cliente);
+              delay(500);
+              marcador_cliente = 5;
               Chama_cliente(marcador_cliente);
               // debug
               //Serial.print("cliente na rede: ");
               //Serial.println(marcador_cliente);
               //Serial.print("cliente lido: ");
               //Serial.println(teste);
-              marcador_cliente ++;
-              if (marcador_cliente >= 5) marcador_cliente = 1;
+               
             }// end if
+        
         timeold_end = millis();
       }// end If
      
 ///////////////////////////////////////////////////////////////////
 // DEBUG REDE PARA TESTE
-Imprimir_serial_temp (     ); // envia via RS485
+   //Imprimir_serial_temp (     ); // envia via RS485
   // Rotina simulador de rede
-  //  freq_sensor=20500;
-  //  Simu_Sensor  (freq_sensor );
+  // freq_sensor=20500;
+  // Simu_Sensor  (freq_sensor );
 ///////////////////////////////////////////////////////////////////
 
 } // END LOOP
@@ -528,14 +534,10 @@ void Imprimir_serial_temp   (                                                   
                             Vetor_RPM(referencia, pulso, pulsos_por_volta, end_sensor);
                             break;
                           case 7:
-                            pulso = pulsos_7;
-                            Vetor_RPM(referencia, pulso, pulsos_por_volta, end_sensor);
-                            break;
-                          case 8:
                             pulso = pulsos_8;
                             Vetor_RPM(referencia, pulso, pulsos_por_volta, end_sensor);
                             break;
-                          case 9:
+                          case 8:
                             pulso = pulsos_9;
                             Vetor_RPM(referencia, pulso, pulsos_por_volta, end_sensor);
                             break;

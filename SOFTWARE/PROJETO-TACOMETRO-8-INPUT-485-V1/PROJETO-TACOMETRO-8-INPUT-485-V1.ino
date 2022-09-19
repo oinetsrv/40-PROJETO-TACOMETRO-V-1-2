@@ -232,6 +232,7 @@ void loop() {
 
    contador              (     );// SEMPRE ATIVO
    imprimir_serial_temp  (     );
+
       //Proto_485_V5          (     ); // RECEBE SOLICITAÇÃO REDE 485  
       //Gerenciador_rede      (     ); // LIMPA VETOR E ERROS DE DEMANDA
  
