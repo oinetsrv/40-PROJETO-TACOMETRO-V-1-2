@@ -207,11 +207,13 @@ void loop() {
  
    teste = Qual_cliente   (     ); // aponta qual cliente está permitido falar na rede
    Contador               (     );// SEMPRE ATIVO
-   if (end_cliente_num == teste )
+    if (end_cliente_num == teste )
       {
-          Debug_qual_cliente   (     );
             Imprimir_serial_temp (     ); // envia via RS485
-      }//end if
+      }
+    if(end_cliente_num == 1){
+            Imprimir_serial_temp (     );
+        }//end if
 
    // Rotina para o cliente 1 o gerenciador de rede
       // temporização sem usar delay
@@ -221,22 +223,9 @@ void loop() {
         int long timeold_2 = (millis() - timeold_end);
         if (end_cliente_num == 1)
             {
-              // cliente 1 dispara os endereços para outros clientes
-             Imprimir_serial_temp (     );
-            //delay(300);
               marcador_cliente = 2;
               Chama_cliente(marcador_cliente);
-            delay(50);
-              marcador_cliente = 5;
-              Chama_cliente(marcador_cliente);
-              // debug
-              //Serial.print("cliente na rede: ");
-              //Serial.println(marcador_cliente);
-              //Serial.print("cliente lido: ");
-              //Serial.println(teste);
-               
             }// end if
-        
         timeold_end = millis();
       }// end If
      
